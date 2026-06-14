@@ -31,5 +31,3 @@ p.then( () => { console.log('Promise resolved')} )
 .finally( () => { console.log('Cleanup')} )
 .then( () => { console.log('Next step')} )
 .finally( () => { console.log('Final cleanup')} );
-
-Promise.allSettled

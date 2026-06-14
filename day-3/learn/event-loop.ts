@@ -60,6 +60,3 @@ function processDataSmooth(data:number[]) {
 // Chạy thử mảng 10 triệu phần tử -> Trang web vẫn cuộn và click mượt mà!
 const bigArray = Array.from({ length: 10000000 }, (_, i) => i);
 processDataSmooth(bigArray);
-
-
-console.log("Rendering..."); 
