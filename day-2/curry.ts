@@ -19,3 +19,22 @@ const formatVND = formatCurrency('vi-VN');
 
 console.log(formatUSD('USD')); // Output: $100,000.00
 console.log(formatVND('VND')); // Output: 100.000 ₫
+
+
+console.log("=======================Curry()=======================");
+function curry(fn: Function) {
+    return function curried(...args: any[]) {
+        if (args.length >= fn.length) {
+            return fn(...args);
+        }
+        return (...nextArgs: any[]) => curried(...args, ...nextArgs);
+    };
+}
+
+const add = (a: number, b: number, c: number) => a + b + c;
+const curriedAdd = curry(add);
+
+console.log(curriedAdd(1)(2)(3)); // Output: 6
+console.log(curriedAdd(1, 2)(3)); // Output: 6
+console.log(curriedAdd(1)(2, 3)); // Output: 6
+console.log(curriedAdd(1, 2, 3)); // Output: 6
