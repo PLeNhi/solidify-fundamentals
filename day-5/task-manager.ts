@@ -46,6 +46,27 @@ class TaskManager {
         return filteredTasks;
     }
 
+    searchTasks(query: string): Task[] {
+        return this.tasks.filter(task => 
+            task.title.toLowerCase().includes(query.toLowerCase()) || 
+            (task.description && task.description.toLowerCase().includes(query.toLowerCase()))
+        );
+    }
+
+    getOverdueTasks(): Task[] {
+        const now = new Date();
+        return this.tasks.filter(task => task.dueDate && task.dueDate < now && task.status !== 'done');
+
+    }
+    markAsDone(id: string): Task | null {
+        const task = this.tasks.find(task => task.id === id);
+        if (task) {
+            task.status = 'done';
+            return task;
+        }
+        return null;
+    }
+
 }
 
 // ==================== TEST ====================
@@ -64,11 +85,21 @@ const task2 = manager.addTask({
     status: "in-progress",
     tags: ["study"]
 });
+manager.addTask({
+    title: "Đi dạo",
+    priority: "low",
+    status: "in-progress",
+    dueDate: new Date(Date.now() - 24 * 60 * 60 * 1000), // yesterday
+    tags: ["leisure"]
+});
 
-console.log(task1);
-console.log(task2);
-console.log(manager.getTasks({ status: "todo" }));
+console.log("task1:", task1);
+console.log("task2:", task2);
+console.log("Tasks with status 'todo':", manager.getTasks({ status: "todo" }));
 manager.updateTask(task1.id, { status: "in-progress" });
-console.log(manager.getTasks({ status: "in-progress" }));
+console.log("Tasks with status 'in-progress':", manager.getTasks({ status: "in-progress" }));
 manager.deleteTask(task2.id);
-console.log(manager.getTasks());
+console.log("Remaining tasks:", manager.getTasks());
+console.log("Search for 'TypeScript':", manager.searchTasks("TypeScript"));
+console.log("Overdue tasks:", manager.getOverdueTasks());
+console.log("Mark task1 as done:", manager.markAsDone(task1.id));
