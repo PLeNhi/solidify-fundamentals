@@ -40,7 +40,7 @@ class TaskManager {
                 filteredTasks = filteredTasks.filter(task => task.priority === filter.priority);
             }
             if (filter.tag) {
-                filteredTasks = filteredTasks.filter(task => task.tags.includes(filter.tag ||''));
+                filteredTasks =  filteredTasks.filter(task => filter.tag &&  task.tags.includes(filter.tag));
             }
         }
         return filteredTasks;
